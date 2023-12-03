@@ -34,7 +34,7 @@ build/
 # .gitignore
 
 # Çevrimiçi ortam değişkenleri dosyası
-.env
+
 
 # Uygulama yapılandırma dosyası
 application.properties
