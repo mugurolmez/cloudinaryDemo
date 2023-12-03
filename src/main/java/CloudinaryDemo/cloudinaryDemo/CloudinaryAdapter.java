@@ -14,17 +14,21 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Map;
 import java.util.Objects;
+
 @Service
 @Transactional
-@AllArgsConstructor
 public class CloudinaryAdapter implements CloudinaryService {
 
-   private final Cloudinary cloudinary;
+    private final Cloudinary cloudinary;
 
+    @Autowired
+    public CloudinaryAdapter(Cloudinary cloudinary) {
+        this.cloudinary = cloudinary;
+    }
 
-    public Map<?,?> upload(MultipartFile multipartFile) throws IOException {
+    public Map<?, ?> upload(MultipartFile multipartFile) throws IOException {
         File file = convert(multipartFile);
-        Map<?,?> result = this.cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+        Map<?, ?> result = this.cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
 
         if (!Files.deleteIfExists(file.toPath())) {
             throw new IOException("Failed to delete temporary file: " + file.getAbsolutePath());
@@ -33,7 +37,7 @@ public class CloudinaryAdapter implements CloudinaryService {
         return result;
     }
 
-    public Map<?,?> delete(String id) throws IOException {
+    public Map<?, ?> delete(String id) throws IOException {
         return this.cloudinary.uploader().destroy(id, ObjectUtils.emptyMap());
     }
 
